@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/choose_parent_genre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/parent_genre"
+        app:layout_constraintEnd_toEndOf="@+id/genre_name_edit"
+        app:layout_constraintStart_toStartOf="@+id/genre_name_edit"
+        app:layout_constraintTop_toBottomOf="@+id/genre_name_edit" />
+
+    <Button
+        android:id="@+id/add_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/add"
+        app:layout_constraintEnd_toStartOf="@+id/cancel_genre"
+        app:layout_constraintStart_toStartOf="@+id/choose_parent_genre"
+        app:layout_constraintTop_toBottomOf="@+id/parent_genre" />
+
+    <Button
+        android:id="@+id/cancel_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="@+id/choose_parent_genre"
+        app:layout_constraintStart_toEndOf="@+id/add_genre"
+        app:layout_constraintTop_toBottomOf="@+id/parent_genre" />
+
+    <TextView
+        android:id="@+id/parent_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/choose_parent_genre"
+        app:layout_constraintStart_toStartOf="@+id/choose_parent_genre"
+        app:layout_constraintTop_toBottomOf="@+id/choose_parent_genre" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/genre_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Genre name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_floatingLabel="highlight"
+        app:met_minCharacters="1"
+        app:met_primaryColor="#000000" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/genre_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="Genre name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_floatingLabel="highlight"
+        app:met_minCharacters="1"
+        app:met_primaryColor="#000000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
