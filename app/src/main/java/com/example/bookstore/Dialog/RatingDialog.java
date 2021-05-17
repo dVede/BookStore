@@ -71,6 +71,9 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();
+                System.out.println(consumerId);
+                System.out.println(bookId);
+                System.out.println(ratingInt);
                 params.put("uid",String.format(Locale.ENGLISH,"%d", consumerId));
                 params.put("bid",String.format(Locale.ENGLISH,"%d", bookId));
                 params.put("rate",String.format(Locale.ENGLISH,"%d", ratingInt));

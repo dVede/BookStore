@@ -13,6 +13,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.bookstore.CacheRequest;
+import com.example.bookstore.CacheRequestTtl;
 import com.example.bookstore.Model.Author;
 import com.example.bookstore.Model.AuthorItem;
 import com.example.bookstore.Model.BookItem;
@@ -46,7 +48,7 @@ public class AuthorFragmentViewModel extends AndroidViewModel {
     }
 
     private void loadAuthorItems(int aid) {
-        final JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+        final CacheRequest request = new CacheRequest(Request.Method.GET,
                 String.format(Locale.ENGLISH, Utils.GET_AUTHOR_BOOKS, aid), null, response -> {
             try {
                 final int authorId = response.getJSONObject(0).getInt("authorid");

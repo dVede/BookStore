@@ -1,4 +1,4 @@
-package com.example.bookstore;
+package com.example.bookstore.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +19,10 @@ import com.example.bookstore.Adapters.Adapter;
 import com.example.bookstore.Fragments.BookDetailFragment;
 import com.example.bookstore.Interfaces.OnItemClickListener;
 import com.example.bookstore.Model.BookItem;
+import com.example.bookstore.R;
+import com.example.bookstore.Utils;
 import com.example.bookstore.ViewModels.BookItemViewModel;
+import com.example.bookstore.ViewModels.WishListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ import java.util.List;
 public class WishListFragment extends Fragment implements OnItemClickListener {
 
     private ArrayList<BookItem> mBookList;
-    private BookItemViewModel mViewModel;
+    private WishListViewModel mViewModel;
     private Context context;
     private Adapter mAdapter;
 
@@ -43,8 +46,7 @@ public class WishListFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final Class<?> c = getClass();
-        LiveData<List<BookItem>> data = mViewModel.getBookItem(c);
+        LiveData<List<BookItem>> data = mViewModel.getWishlistBooks();
         data.observe(getViewLifecycleOwner(), bookItems -> {
             mBookList.clear();
             mBookList.addAll(bookItems);
@@ -74,7 +76,7 @@ public class WishListFragment extends Fragment implements OnItemClickListener {
         mAdapter = new Adapter(context, mBookList);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
-        mViewModel = new ViewModelProvider(this).get(BookItemViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(WishListViewModel.class);
     }
 
 }

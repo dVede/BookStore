@@ -1,3 +1,4 @@
+
 package com.example.bookstore.Model;
 
 public class User {
@@ -74,3 +75,4 @@ public class User {
         this.id = id;
     }
 }
+   

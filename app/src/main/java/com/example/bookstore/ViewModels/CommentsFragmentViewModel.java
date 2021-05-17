@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.bookstore.CacheRequest;
 import com.example.bookstore.Model.Comment;
 import com.example.bookstore.Model.CommentItem;
 import com.example.bookstore.SingletonClasses.QueueSingleton;
@@ -26,13 +27,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 public class CommentsFragmentViewModel extends AndroidViewModel {
     private List<CommentItem> mCommentsItems;
@@ -58,7 +57,7 @@ public class CommentsFragmentViewModel extends AndroidViewModel {
     }
 
     private void loadBookComments(int bid) {
-        final JsonArrayRequest request = new JsonArrayRequest(
+        final CacheRequest request = new CacheRequest(
                 String.format(Locale.ENGLISH, Utils.GET_BOOK_COMMENTS,
                         bid), response -> {
             try {
@@ -76,35 +75,7 @@ public class CommentsFragmentViewModel extends AndroidViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Throwable::printStackTrace){
-            @Override
-            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    Cache.Entry cacheEntry = HttpHeaderParser.parseCacheHeaders(response);
-                    if (cacheEntry == null) new Cache.Entry();
-                    final long cacheExpired = 24 * 60 * 60 * 1000;
-                    final long now = System.currentTimeMillis();
-                    Objects.requireNonNull(cacheEntry).data = response.data;
-                    cacheEntry.softTtl = now;
-                    cacheEntry.ttl = now + cacheExpired;
-                    String headerValue;
-                    headerValue = Objects.requireNonNull(response.headers).get("Date");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    headerValue = response.headers.get("Last-Modified");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    cacheEntry.responseHeaders = response.headers;
-                    final String jsonString = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers));
-                    return Response.success(new JSONArray(jsonString), cacheEntry);
-                }  catch (UnsupportedEncodingException | JSONException e) {
-                    return  Response.error(new ParseError(e));
-                }
-            }
-        };
+        }, Throwable::printStackTrace);
         queue.add(request);
     }
 

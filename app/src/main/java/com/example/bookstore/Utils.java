@@ -38,6 +38,7 @@ public class Utils {
     public static final String GET_GENRES = Utils.IP_ADDRESS + "rpc/get_genres";
     public static final String CREATE_USER = Utils.IP_ADDRESS + "rpc/create_user";
     public static final String UPDATE_CART = Utils.IP_ADDRESS + "rpc/update_cart";
+    public static final String ADD_AUTHOR = Utils.IP_ADDRESS + "rpc/add_author";
     public static final String DELETE_FROM_WISHLIST = Utils.IP_ADDRESS + "rpc/delete_from_wishlist";
     public static final String GET_ALL_WISHLISTED_BOOKS =
             Utils.IP_ADDRESS + "rpc/get_all_wishlisted_books?consumer=%d";
@@ -54,6 +55,7 @@ public class Utils {
     public static final String EMAIL_TELEPHONE_LOGIN_CHECK =
             Utils.IP_ADDRESS + "rpc/is_email_telephone_or_login_exist" +
                     "?emailcheck=%s&telephonecheck=%s&logincheck=%s";
+
     public static final String EXTRA_ID = "id";
     public static final String TIMESTAMP_SEPARATOR = "T";
     public static final String SPACE_CHARACTER = " ";
@@ -73,6 +75,7 @@ public class Utils {
             "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e" +
             "-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     public static final String TELEPHONE_REGEX = "^((\\+7)+([0-9]){10})";
+    public static final String IMAGE_URL_REGEX = "(https?:\\/\\/.*\\.(?:png|jpg))";
 
     private static final Random RANDOM = new SecureRandom();
 

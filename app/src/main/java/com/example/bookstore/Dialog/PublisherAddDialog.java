@@ -90,7 +90,7 @@ public class PublisherAddDialog extends DialogFragment implements View.OnClickLi
     }
 
     private void formatCheck(String email, String address, String name, boolean emailMatch) {
-        if (!emailMatch) nameText.setError(getResources().getString(R.string.email_regex_check));
+        if (!emailMatch) emailText.setError(getResources().getString(R.string.email_regex_check));
         if (email.isEmpty()) emailText.setError(getResources().getString(R.string.empty));
         if (address.isEmpty()) addressText.setError(getResources().getString(R.string.empty));
         if (name.isEmpty()) nameText.setError(getResources().getString(R.string.empty));

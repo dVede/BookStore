@@ -6,7 +6,6 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,6 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
     private Button wishlistButton;
     private Boolean isWishlisted;
     private RatingBar ratingBar;
-    private int bookId;
     private RequestQueue requestQueue;
     private BookDetailViewModel bookDetailViewModel;
     private SharedPrefManager sharedPrefManager;
@@ -124,6 +122,7 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
         final List<Genre> genres = bookDetailed.getGenre();
         final float averageRating = bookDetailed.getAverageRating();
         final int votes = bookDetailed.getVotesNumber();
+        int bookId = book.getId();
         isWishlisted = bookDetailed.getWishlisted();
 
         createSpannableGenresText(genres);
@@ -262,7 +261,7 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();
-                params.put("book",String.format(Locale.ENGLISH,"%d",bookId));
+                params.put("book",String.format(Locale.ENGLISH,"%d",bid));
                 params.put("consumer",String.format(Locale.ENGLISH,"%d",sharedPrefManager.getUser().getId()));
                 return params;
             }
@@ -284,7 +283,7 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();
-                params.put("book",String.format(Locale.ENGLISH,"%d",bookId));
+                params.put("book",String.format(Locale.ENGLISH,"%d",bid));
                 params.put("consumer",String.format(Locale.ENGLISH,"%d",sharedPrefManager.getUser().getId()));
                 return params;
             }
@@ -304,11 +303,11 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_to_cart:
-                AddToCartDialog addToCartDialog = new AddToCartDialog(bookId, sharedPrefManager.getUser().getId());
+                AddToCartDialog addToCartDialog = new AddToCartDialog(bid, sharedPrefManager.getUser().getId());
                 addToCartDialog.show(getParentFragmentManager(), "addCartDialog");
                 break;
             case R.id.rating_view:
-                RatingDialog ratingDialog = new RatingDialog(bookId, sharedPrefManager.getUser().getId());
+                RatingDialog ratingDialog = new RatingDialog(bid, sharedPrefManager.getUser().getId());
                 ratingDialog.show(getParentFragmentManager(), "ratingDialog");
                 break;
             case R.id.comment_open_button:

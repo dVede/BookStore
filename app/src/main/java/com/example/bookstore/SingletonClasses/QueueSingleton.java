@@ -1,15 +1,23 @@
 package com.example.bookstore.SingletonClasses;
 
 import android.content.Context;
+import android.renderscript.Sampler;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class QueueSingleton {
     private static QueueSingleton instance;
     private RequestQueue requestQueue;
     private static Context ctx;
+    private long startTime;
+    private long cacheEndTime;
+    private long networkEndTime;
 
     private QueueSingleton(Context context) {
         ctx = context;

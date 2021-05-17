@@ -79,4 +79,11 @@
     <string name="status">Status:</string>
     <string name="total_price">Total Price:</string>
     <string name="change_info">Change info</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="image_url">Image url</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="add_genre">Add genre</string>
+    <string name="add_publisher">Add publisher</string>
+    <string name="add_author">Add author</string>
 </resources>

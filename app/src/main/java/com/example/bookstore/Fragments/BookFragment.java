@@ -72,8 +72,7 @@ public class BookFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Class<?> c = getClass();
-        LiveData<List<BookItem>> liveData = mViewModel.getBookItem(c);
+        LiveData<List<BookItem>> liveData = mViewModel.getBookItem();
         liveData.observe(getViewLifecycleOwner(), bookItems -> {
             mBookList.clear();
             mBookList.addAll(bookItems);

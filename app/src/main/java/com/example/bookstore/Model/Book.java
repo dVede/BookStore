@@ -7,8 +7,7 @@ public class Book {
 
     public Book(String isbn, String imageUrl, String title, String year, String pages,
                 int numberInStock, String description, double price, int id, int publisherId) {
-        this.isbn = isbn;
-        this.imageUrl = imageUrl;
+        this.isbn = isbn;this.imageUrl = imageUrl;
         this.title = title;
         this.year = year;
         this.pages = pages;
@@ -40,7 +39,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+      this.title = title;
     }
 
     public String getYear() {

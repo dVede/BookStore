@@ -19,9 +19,12 @@
                 android:title="@string/orders"/>
             <item
                 android:id="@+id/nav_add_genre"
-                android:title="Add genre"/>
+                android:title="@string/add_genre"/>
             <item
                 android:id="@+id/nav_add_publisher"
-                android:title="Add publisher"/>
+                android:title="@string/add_publisher"/>
+            <item
+                android:id="@+id/nav_add_author"
+                android:title="@string/add_author"/>
         </group>
 </menu>

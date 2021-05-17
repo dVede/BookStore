@@ -11,12 +11,14 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.bookstore.Dialog.AddAuthorDialog;
 import com.example.bookstore.Dialog.GenreCreateDialog;
 import com.example.bookstore.Dialog.PublisherAddDialog;
 import com.example.bookstore.Fragments.BookFragment;
 import com.example.bookstore.Fragments.CartFragment;
 import com.example.bookstore.Fragments.OrdersFragment;
 import com.example.bookstore.Fragments.ProfileFragment;
+import com.example.bookstore.Fragments.WishListFragment;
 import com.example.bookstore.Model.Role;
 import com.example.bookstore.SingletonClasses.SharedPrefManager;
 import com.google.android.material.navigation.NavigationView;
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_add_publisher:
                 PublisherAddDialog publisherAddDialog = new PublisherAddDialog();
                 publisherAddDialog.show(fTrans, "publisherAddDialog");
+                break;
+            case R.id.nav_add_author:
+                AddAuthorDialog addAuthorDialog = new AddAuthorDialog();
+                addAuthorDialog.show(fTrans, "addAuthorDialog");
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
