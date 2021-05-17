@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/author_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/add"
+        app:layout_constraintEnd_toStartOf="@+id/author_cancel"
+        app:layout_constraintStart_toStartOf="@+id/editText_imageUrl"
+        app:layout_constraintTop_toBottomOf="@+id/editText_imageUrl" />
+
+    <Button
+        android:id="@+id/author_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="@+id/editText_imageUrl"
+        app:layout_constraintStart_toEndOf="@+id/author_add"
+        app:layout_constraintTop_toBottomOf="@+id/editText_imageUrl" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/editText_middleName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/middle_name"
+        app:layout_constraintEnd_toEndOf="@+id/editText_firstName"
+        app:layout_constraintStart_toStartOf="@+id/editText_firstName"
+        app:layout_constraintTop_toBottomOf="@+id/editText_firstName"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_helperTextAlwaysShown="@string/last_name"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="@string/last_name"
+        app:met_primaryColor="#000000"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/editText_imageUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/image_url"
+        app:layout_constraintEnd_toEndOf="@+id/editText_middleName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editText_middleName"
+        app:layout_constraintTop_toBottomOf="@+id/editText_middleName"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="@string/last_name"
+        app:met_minCharacters="1"
+        app:met_primaryColor="#000000"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/editText_lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/last_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_helperTextAlwaysShown="@string/last_name"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="@string/last_name"
+        app:met_primaryColor="#000000"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/editText_firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/first_name"
+        app:layout_constraintEnd_toEndOf="@+id/editText_lastName"
+        app:layout_constraintStart_toStartOf="@+id/editText_lastName"
+        app:layout_constraintTop_toBottomOf="@+id/editText_lastName"
+        app:met_baseColor="#111"
+        app:met_errorColor="#E53935"
+        app:met_helperTextAlwaysShown="@string/first_name"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="@string/first_name"
+        app:met_primaryColor="#000000"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
