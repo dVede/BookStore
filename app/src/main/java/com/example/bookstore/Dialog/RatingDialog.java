@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,7 +68,11 @@ public class RatingDialog extends DialogFragment implements View.OnClickListener
         final StringRequest requestUpsertRating = new StringRequest(Request.Method.POST,
                 Utils.UPSERT_RATING,
                 response -> { },
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getContext());
+            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();

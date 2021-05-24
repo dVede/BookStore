@@ -1,7 +1,22 @@
 package com.example.bookstore;
 
-import org.apache.commons.codec.binary.Base64;
+import android.content.Context;
 
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.json.JSONException;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -76,6 +91,11 @@ public class Utils {
             "-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     public static final String TELEPHONE_REGEX = "^((\\+7)+([0-9]){10})";
     public static final String IMAGE_URL_REGEX = "(https?:\\/\\/.*\\.(?:png|jpg))";
+    public static final String TRAILING_ZERO_REGEX = "\\.(.*?)0+$";
+    public static final String TRAILING_ZERO_REPLACEMENT = ".$1";
+    public static final String DOT_END_REGEX = "\\.$";
+    public static final String DOT_REGEX = "\\.";
+    public static final String APOSTROPHE_SYMBOL = "\"";
 
     private static final Random RANDOM = new SecureRandom();
 
@@ -99,9 +119,40 @@ public class Utils {
     }
 
     public static String decodeJWT(String jwt) {
-        final String[] tokens = jwt.split("\\.");
+        final String[] tokens = jwt.split(DOT_REGEX);
         final String base64EncodedBody = tokens[1];
         final Base64 base64Url = new Base64(true);
         return new String(base64Url.decode(base64EncodedBody));
+    }
+
+    public static String getErrorMessage(VolleyError error, Context ctx) {
+        String msg;
+        if (error instanceof NoConnectionError) {
+            msg = ctx.getString(R.string.no_connection_error);
+        }
+        else if (error instanceof NetworkError || error.getCause() instanceof ConnectException) {
+            msg = ctx.getString(R.string.no_network_error);
+        }
+        else if (error.getCause() instanceof MalformedURLException) {
+            msg = ctx.getString(R.string.bad_url_error);
+        }
+        else if (error instanceof ParseError || error.getCause() instanceof IllegalStateException
+                || error.getCause() instanceof JSONException
+                || error.getCause() instanceof XmlPullParserException) {
+            msg = ctx.getString(R.string.data_parse_error);
+        }
+        else if (error.getCause() instanceof OutOfMemoryError) {
+            msg = ctx.getString(R.string.oom_error);
+        }
+        else if (error instanceof ServerError || error.getCause() instanceof ServerError) {
+            msg = ctx.getString(R.string.server_error);
+        }
+        else if (error instanceof TimeoutError || error.getCause() instanceof SocketTimeoutException
+                || error.getCause() instanceof ConnectTimeoutException
+                || error.getCause() instanceof SocketTimeoutException) {
+            msg = ctx.getString(R.string.timed_out_error);
+        }
+        else msg = ctx.getString(R.string.unknown_error);
+        return msg;
     }
 }

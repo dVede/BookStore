@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.example.bookstore.Utils.DOT_END_REGEX;
+import static com.example.bookstore.Utils.EMPTY_CHARACTER;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REGEX;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REPLACEMENT;
 
 public class BookDetailFragment extends Fragment implements LifecycleObserver, View.OnClickListener {
 
@@ -137,6 +143,10 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
 
         final int stock = book.getNumberInStock();
         final double price = book.getPrice();
+        final String priceS = String.valueOf(price)
+                .replaceAll(TRAILING_ZERO_REGEX, TRAILING_ZERO_REPLACEMENT)
+                .replaceAll(DOT_END_REGEX, EMPTY_CHARACTER);
+
         Glide.with(this).load("http://goo.gl/gEgYUd").into(bookImage);
         titleText.setText(title);
 
@@ -149,16 +159,13 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
         ratingBar.setRating(averageRating);
         numberOfVotes.setText(String.valueOf(votes));
         rating.setText(String.valueOf(averageRating));
-
-        if (price == (long) price) priceText.setText(String.format(Locale.ENGLISH,"%d "
-                + getResources().getString(R.string.rubles), (long) price));
-        else priceText.setText(String.format(Locale.ENGLISH,"%s" +
-                getResources().getString(R.string.rubles), price));
+        priceText.setText(String.format(Locale.ENGLISH,"%s "
+                + getResources().getString(R.string.rubles), priceS));
         if (isWishlisted) wishlistButton.setBackgroundResource(R.drawable.ic_baseline_red_24);
     }
 
     private void createSpannablePublisherText(Publisher publisher) {
-        final String publisherName = publisher.getName() + " ";
+        final String publisherName = publisher.getName() + Utils.SPACE_CHARACTER;
         final SpannableString sPublisher = new SpannableString(publisherName);
         final ClickableSpan clickableSpan3 = new ClickableSpan() {
             @Override
@@ -257,7 +264,11 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
                     isWishlisted = false;
                     wishlistButton.setBackgroundResource(R.drawable.ic_baseline_shadow_24);
                 },
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getContext());
+            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();
@@ -279,7 +290,11 @@ public class BookDetailFragment extends Fragment implements LifecycleObserver, V
                     isWishlisted = true;
                     wishlistButton.setBackgroundResource(R.drawable.ic_baseline_red_24);
                 },
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getContext());
+            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -122,7 +123,11 @@ public class GenreCreateDialog extends DialogFragment implements View.OnClickLis
         final StringRequest requestGenre = new StringRequest(Request.Method.POST,
                 Utils.ADD_GENRE,
                 response -> { },
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getContext());
+            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();

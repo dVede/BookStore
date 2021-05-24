@@ -15,10 +15,16 @@ import com.example.bookstore.Interfaces.OnItemClickListener;
 import com.example.bookstore.Model.Author;
 import com.example.bookstore.Model.BookItem;
 import com.example.bookstore.R;
+import com.example.bookstore.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
+
+import static com.example.bookstore.Utils.DOT_END_REGEX;
+import static com.example.bookstore.Utils.EMPTY_CHARACTER;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REGEX;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REPLACEMENT;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private Context mContext;
@@ -55,10 +61,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         final String imageUrl = currentItem.getImageUrl();
         final String title = currentItem.getTitle();
         final double price = currentItem.getPrice();
-
-        if (price == (long) price) holder.mPrice.setText(String.format(Locale.ENGLISH,
-                "%d руб.", (long) price));
-        else holder.mPrice.setText(String.format(Locale.ENGLISH,"%s руб.", price));
+        final String priceS = String.valueOf(price)
+                .replaceAll(TRAILING_ZERO_REGEX, TRAILING_ZERO_REPLACEMENT)
+                .replaceAll(DOT_END_REGEX, EMPTY_CHARACTER);
+        holder.mPrice.setText(String.format(Locale.ENGLISH, "%s %s", priceS,
+                mContext.getResources().getString(R.string.rubles)));
         holder.mAuthor.setText(String.format(Locale.ENGLISH,"%s", sb2.toString()));
         holder.mTitle.setText(String.format(Locale.ENGLISH,"%s",title));
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mBookImage);

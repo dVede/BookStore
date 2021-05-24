@@ -20,6 +20,12 @@ import com.example.bookstore.Utils;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.bookstore.Utils.DOT_REGEX;
+import static com.example.bookstore.Utils.DOT_END_REGEX;
+import static com.example.bookstore.Utils.EMPTY_CHARACTER;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REGEX;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REPLACEMENT;
+
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private Context mContext;
     private List<OrderItem> mOrderList;
@@ -51,13 +57,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         final double totalPrice = orderItem.getTotalSum();
         final String bookIds = TextUtils.join(Utils.COMMA_DELIMITER_WITH_SPACE ,str);
         final String[] timestampList = timestamp.replace(Utils.TIMESTAMP_SEPARATOR,
-                Utils.SPACE_CHARACTER).split("\\.");
+                Utils.SPACE_CHARACTER).split(DOT_REGEX);
+        final String priceS = String.valueOf(totalPrice)
+                .replaceAll(TRAILING_ZERO_REGEX, TRAILING_ZERO_REPLACEMENT)
+                .replaceAll(DOT_END_REGEX, EMPTY_CHARACTER);
         holder.mTimestamp.setText(timestampList[0]);
         holder.mStatus.setText(orderStatus.toString());
         holder.mArticles.setText(bookIds);
-        if (totalPrice == (long) totalPrice) holder.mTotalSum.setText(String.format(Locale.ENGLISH,
-                "%d руб.", (long) totalPrice));
-        else  holder.mTotalSum.setText(String.format(Locale.ENGLISH,"%s руб.", totalPrice));
+        holder.mTotalSum.setText(String.format(Locale.ENGLISH,"%s %s", priceS,
+                mContext.getResources().getString(R.string.rubles)));
     }
 
     @Override

@@ -77,9 +77,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         else {
             validateInfo(email, phone, login, () -> {
-                System.out.println(isEmailExist);
-                System.out.println(isPhoneExist);
-                System.out.println(isLoginExist);
                 if (!isEmailExist && !isPhoneExist && !isLoginExist) {
                     createAccount(email, login, phone, address, password);
                     finish();

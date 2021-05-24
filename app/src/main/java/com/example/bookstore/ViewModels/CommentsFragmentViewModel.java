@@ -1,6 +1,7 @@
 package com.example.bookstore.ViewModels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -75,7 +76,11 @@ public class CommentsFragmentViewModel extends AndroidViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Throwable::printStackTrace);
+        }, volleyError -> {
+            volleyError.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+            Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
+        });
         queue.add(request);
     }
 
@@ -87,7 +92,11 @@ public class CommentsFragmentViewModel extends AndroidViewModel {
         final StringRequest requestAddComment = new StringRequest(Request.Method.POST,
                 Utils.ADD_COMMENT,
                 response -> volleyCallBack.onSuccess(),
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getApplication());
+            Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams() {
                 Map<String,String> params = new HashMap<>();

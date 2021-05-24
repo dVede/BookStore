@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password.getText().clear();
         final Toast toast = Toast.makeText(
                 this,
-                "Wrong login or password",
+                R.string.wrong_login_or_password,
                 Toast.LENGTH_SHORT
         );
         toast.show();

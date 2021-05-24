@@ -23,6 +23,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.bookstore.Utils.DOT_END_REGEX;
+import static com.example.bookstore.Utils.DOT_REGEX;
+import static com.example.bookstore.Utils.EMPTY_CHARACTER;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REGEX;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REPLACEMENT;
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context mContext;
     private List<CartItem> mCartList;
@@ -66,9 +72,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         final double price = bookItem.getPrice();
         final double totalPrice = price * currentItem.getAmount();
 
-        if (totalPrice == (long) totalPrice) holder.mPrice.setText(String.format(Locale.ENGLISH,
-                "%d руб.", (long) totalPrice));
-        else holder.mPrice.setText(String.format(Locale.ENGLISH,"%s руб.", totalPrice));
+        final String priceS = String.valueOf(totalPrice)
+                .replaceAll(TRAILING_ZERO_REGEX, TRAILING_ZERO_REPLACEMENT)
+                .replaceAll(DOT_END_REGEX, EMPTY_CHARACTER);
+        holder.mPrice.setText(String.format(Locale.ENGLISH, "%s %s", priceS,
+                mContext.getResources().getString(R.string.rubles)));
         holder.mAuthor.setText(String.format(Locale.ENGLISH,"%s", sb2.toString()));
         holder.mTitle.setText(String.format(Locale.ENGLISH,"%s",title));
         holder.mAmount.setText(String.format(Locale.ENGLISH,"%s", currentItem.getAmount()));

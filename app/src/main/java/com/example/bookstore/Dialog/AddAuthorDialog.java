@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,14 +44,12 @@ public class AddAuthorDialog extends DialogFragment implements View.OnClickListe
         firstNameEditText = v.findViewById(R.id.editText_firstName);
         middleNameEditText = v.findViewById(R.id.editText_middleName);
         imageUrlEditText = v.findViewById(R.id.editText_imageUrl);
-
         addButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.author_add:
                 final String imageUrl = imageUrlEditText.getText().toString();
@@ -67,7 +66,7 @@ public class AddAuthorDialog extends DialogFragment implements View.OnClickListe
                 dismiss();
                 break;
             case R.id.author_cancel:
-                dismiss();;
+                dismiss();
                 break;
         }
     }
@@ -75,19 +74,23 @@ public class AddAuthorDialog extends DialogFragment implements View.OnClickListe
     private void validateInfo(String lastName, String firstName,
                               String middleName, String imageUrl, boolean urlMatch) {
         if (lastName.isEmpty() && firstName.isEmpty() && middleName.isEmpty()) {
-            lastNameEditText.setError("At least one field must be filled");
-            firstNameEditText.setError("At least one field must be filled");
-            middleNameEditText.setError("At least one field must be filled");
+            lastNameEditText.setError(getString(R.string.one_field_error));
+            firstNameEditText.setError(getString(R.string.one_field_error));
+            middleNameEditText.setError(getString(R.string.one_field_error));
         }
-        if (!urlMatch) imageUrlEditText.setError("Incorrect URL");
-        if (imageUrl.isEmpty()) imageUrlEditText.setError("Empty");
+        if (!urlMatch) imageUrlEditText.setError(getString(R.string.incorrect_url));
+        if (imageUrl.isEmpty()) imageUrlEditText.setError(getString(R.string.empty));
     }
 
     private void addAuthor(String lastName, String firstName, String middleName, String imageUrl) {
         final StringRequest requestAddAuthor = new StringRequest(Request.Method.POST,
                 Utils.ADD_AUTHOR,
                 response -> { },
-                error -> System.out.println(error.getMessage())){
+                error -> {
+            error.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(error, getContext());
+            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();

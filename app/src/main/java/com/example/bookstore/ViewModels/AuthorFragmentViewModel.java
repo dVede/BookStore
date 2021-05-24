@@ -1,6 +1,7 @@
 package com.example.bookstore.ViewModels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -75,38 +76,11 @@ public class AuthorFragmentViewModel extends AndroidViewModel {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Throwable::printStackTrace){
-            @Override
-            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    Cache.Entry cacheEntry = HttpHeaderParser.parseCacheHeaders(response);
-                    if (cacheEntry == null) new Cache.Entry();
-                    final long cacheHitButRefreshed = 3 * 60 * 1000;
-                    final long cacheExpired = 24 * 60 * 60 * 1000;
-                    final long now = System.currentTimeMillis();
-                    final long softExpire = now + cacheHitButRefreshed;
-                    final long ttl = now + cacheExpired;
-                    Objects.requireNonNull(cacheEntry).data = response.data;
-                    cacheEntry.softTtl = softExpire;
-                    cacheEntry.ttl = ttl;
-                    String headerValue;
-                    headerValue = Objects.requireNonNull(response.headers).get("Date");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    headerValue = response.headers.get("Last-Modified");
-                    if (headerValue != null) {
-                        cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
-                    }
-                    cacheEntry.responseHeaders = response.headers;
-                    final String jsonString = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers));
-                    return Response.success(new JSONArray(jsonString), cacheEntry);
-                }  catch (UnsupportedEncodingException | JSONException e) {
-                    return  Response.error(new ParseError(e));
-                }
-            }
-        };
+        }, volleyError -> {
+            volleyError.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+            Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
+        });
         queue.add(request);
     }
 }

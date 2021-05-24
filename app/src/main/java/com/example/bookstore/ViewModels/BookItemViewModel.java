@@ -1,28 +1,17 @@
 package com.example.bookstore.ViewModels;
 
 import android.app.Application;
-import android.os.Build;
-import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bookstore.CacheRequest;
-import com.example.bookstore.CacheRequestTtl;
-import com.example.bookstore.Fragments.BookFragment;
 import com.example.bookstore.Model.Author;
 import com.example.bookstore.Model.BookItem;
 import com.example.bookstore.SingletonClasses.QueueSingleton;
@@ -32,16 +21,10 @@ import com.example.bookstore.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import static android.content.Context.MODE_PRIVATE;
+import timber.log.Timber;
 
 public class BookItemViewModel extends AndroidViewModel implements RequestQueue.RequestEventListener {
     private MutableLiveData<List<BookItem>> mBookItem;
@@ -64,7 +47,7 @@ public class BookItemViewModel extends AndroidViewModel implements RequestQueue.
     }
 
     private void loadBookItems() {
-        final JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+        final CacheRequest request = new CacheRequest(Request.Method.GET,
                 Utils.GET_ALL_BOOKS, null, response -> {
             try {
                 final List<BookItem> mBookList = new ArrayList<>();
@@ -93,8 +76,11 @@ public class BookItemViewModel extends AndroidViewModel implements RequestQueue.
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            }, Throwable::printStackTrace);
-        request.setShouldCache(false);
+            }, volleyError -> {
+            volleyError.printStackTrace();
+            final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+            Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
+        });
         testQueue.add(request);
     }
 
@@ -103,14 +89,14 @@ public class BookItemViewModel extends AndroidViewModel implements RequestQueue.
         long endCache;
         long endNetwork;
         if (event == RequestQueue.RequestEvent.REQUEST_QUEUED)
-            startRequest = System.currentTimeMillis();
+            startRequest = System.nanoTime();
         if (event == RequestQueue.RequestEvent.REQUEST_CACHE_LOOKUP_FINISHED) {
-            endCache = System.currentTimeMillis();
-            Log.d("cacheTime", String.valueOf(endCache - startRequest));
+            endCache = System.nanoTime();
+            Timber.tag("cacheTime").d(String.valueOf(endCache - startRequest));
         }
         if (event == RequestQueue.RequestEvent.REQUEST_NETWORK_DISPATCH_FINISHED) {
-            endNetwork = System.currentTimeMillis();
-            Log.d("networkTime", String.valueOf(endNetwork - startRequest));
+            endNetwork = System.nanoTime();
+            Timber.tag("networkTime").d(String.valueOf(endNetwork - startRequest));
         }
     }
 }

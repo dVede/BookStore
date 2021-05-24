@@ -1,6 +1,7 @@
 package com.example.bookstore.ViewModels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -48,7 +49,11 @@ public class ProfileViewModel extends AndroidViewModel {
                         e.printStackTrace();
                     }
                 },
-                error -> System.out.println(error.getMessage()));
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
+                });
         queue.add(requestUserInfo);
     }
 }

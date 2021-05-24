@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.LruCache;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -106,8 +107,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(requestGenres);
@@ -125,8 +128,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(requestIsInWishlist);
@@ -152,8 +157,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(requestBookInfo);
@@ -182,8 +189,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(requestBookAuthor);
@@ -204,8 +213,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(requestBookPublisher);
@@ -223,8 +234,10 @@ public class BookDetailViewModel extends AndroidViewModel {
                     }
                     mCountDownLatch.countDown();
                 },
-                error -> {
-                    System.out.println(error.getMessage());
+                volleyError -> {
+                    volleyError.printStackTrace();
+                    final String errorMsg = Utils.getErrorMessage(volleyError, getApplication());
+                    Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show();
                     mCountDownLatch.countDown();
                 });
         queue.add(ratingRequest);

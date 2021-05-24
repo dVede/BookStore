@@ -86,4 +86,17 @@
     <string name="add_genre">Add genre</string>
     <string name="add_publisher">Add publisher</string>
     <string name="add_author">Add author</string>
+    <string name="wrong_login_or_password">Wrong login or password</string>
+    <string name="too_big_comment">Too big comment</string>
+    <string name="password_not_match">Password not match</string>
+    <string name="one_field_error">At least one field must be filled</string>
+    <string name="incorrect_url">Incorrect URL</string>
+    <string name="no_connection_error">Error connecting the device to the server. Please try again.</string>
+    <string name="no_network_error">No network access</string>
+    <string name="bad_url_error">Bad URL request</string>
+    <string name="data_parse_error">Data parsing error</string>
+    <string name="oom_error">Out of memory error. Check memory and try again</string>
+    <string name="server_error">Internal server error</string>
+    <string name="timed_out_error">Connection has timed out</string>
+    <string name="unknown_error">Unknown error occurred</string>
 </resources>

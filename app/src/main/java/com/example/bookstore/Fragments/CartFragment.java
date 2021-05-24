@@ -32,6 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.bookstore.Utils.DOT_END_REGEX;
+import static com.example.bookstore.Utils.EMPTY_CHARACTER;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REGEX;
+import static com.example.bookstore.Utils.TRAILING_ZERO_REPLACEMENT;
+
 public class CartFragment extends Fragment implements OnItemClickListener,
         OnItemButtonClickListener {
     private CartAdapter mAdapter;
@@ -55,10 +60,11 @@ public class CartFragment extends Fragment implements OnItemClickListener,
         LiveData<CartFragmentItem> liveData = cartFragmentViewModel.getBookItem();
         liveData.observe(getViewLifecycleOwner(), cartFragmentItem -> {
             double totalPrice1 = cartFragmentItem.getTotalPrice();
-            if (totalPrice1 == (long) totalPrice1) totalPrice.setText(String.format(Locale.ENGLISH,
-                    "%d" + getResources().getString(R.string.rubles), (long) totalPrice1));
-            else totalPrice.setText(String.format(Locale.ENGLISH,"%s"
-                    + getResources().getString(R.string.rubles), totalPrice1));
+            final String priceS = String.valueOf(totalPrice1)
+                    .replaceAll(TRAILING_ZERO_REGEX, TRAILING_ZERO_REPLACEMENT)
+                    .replaceAll(DOT_END_REGEX, EMPTY_CHARACTER);
+            totalPrice.setText(String.format(Locale.ENGLISH,
+                    "%s" + getResources().getString(R.string.rubles), priceS));
             mCartList.clear();
             mCartList.addAll(cartFragmentItem.getCartItem());
             mAdapter.notifyDataSetChanged();

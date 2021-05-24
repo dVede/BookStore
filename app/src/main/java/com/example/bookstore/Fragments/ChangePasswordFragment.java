@@ -131,14 +131,14 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     }
 
     public void formatCheck(){
-        if (password1.length() < 6) password1.setError("6 characters");
-        if (password2.length() < 6) password2.setError("6 characters");
-        if (password3.length() < 6) password3.setError("6 characters");
-        if (passwordText1.isEmpty()) password1.setError("Empty");
-        if (passwordText2.isEmpty()) password2.setError("Empty");
-        if (passwordText3.isEmpty()) password3.setError("Empty");
+        if (password1.length() < 6) password1.setError(getString(R.string.characters6));
+        if (password2.length() < 6) password2.setError(getString(R.string.characters6));
+        if (password3.length() < 6) password3.setError(getString(R.string.characters6));
+        if (passwordText1.isEmpty()) password1.setError(getString(R.string.empty));
+        if (passwordText2.isEmpty()) password2.setError(getString(R.string.empty));
+        if (passwordText3.isEmpty()) password3.setError(getString(R.string.empty));
         if (!passwordText2.equals(passwordText3))
-            Toast.makeText(getContext(), "Password not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.password_not_match, Toast.LENGTH_SHORT).show();
 
     }
 }

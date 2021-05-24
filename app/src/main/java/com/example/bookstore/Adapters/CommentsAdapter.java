@@ -36,7 +36,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public void onBindViewHolder(@NonNull CommentsAdapter.ViewHolder holder, int position) {
         final Comment comment = mCommentList.get(position).getComment();
         final String username  = mCommentList.get(position).getUsername();
-        holder.mUser.setText(String.format("User: %s", username));
+        holder.mUser.setText(String.format("%s %s",
+                mContext.getResources().getString(R.string.user), username));
         holder.mComment.setText(comment.getComment());
     }
 

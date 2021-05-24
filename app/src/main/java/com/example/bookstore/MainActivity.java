@@ -92,10 +92,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isAdmin() {
         final String check = Role.ADMIN.toString();
-        SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(getApplication());
+        final SharedPrefManager sharedPrefManager = SharedPrefManager.getInstance(getApplication());
         final String t = sharedPrefManager.getUser().getToken();
         final String[] arr = Utils.decodeJWT(t).split(Utils.COLON_CHARACTER);
-        String[] arr2 = arr[2].replace("\"", Utils.EMPTY_CHARACTER).split(Utils.COMMA_CHARACTER);
+        final String[] arr2 = arr[2].replace(Utils.APOSTROPHE_SYMBOL, Utils.EMPTY_CHARACTER)
+                .split(Utils.COMMA_CHARACTER);
         return check.equals(arr2[0]);
     }
 }

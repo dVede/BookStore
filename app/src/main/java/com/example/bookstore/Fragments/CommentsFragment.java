@@ -71,8 +71,8 @@ public class CommentsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         String comment = commentText.getText().toString();
         if (comment.isEmpty() || comment.length() > 300 )
-            if (comment.isEmpty()) commentText.setError("Empty");
-            else commentText.setError("Too big comment");
+            if (comment.isEmpty()) commentText.setError(getString(R.string.empty));
+            else commentText.setError(getString(R.string.too_big_comment));
         else {
             commentsFragmentViewModel.addComment(bid, comment);
             commentText.getText().clear();
